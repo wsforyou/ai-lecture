@@ -259,7 +259,7 @@ graph TB
 ###### 코드 실행 전문 UserProxyAgent
 
 ```python
-# basic_example.py
+# 01.user_proxy.py
 import os
 from autogen import UserProxyAgent
 
@@ -339,11 +339,9 @@ from autogen import AssistantAgent
 # LLM 설정 구성
 config_list_azure = [
     {
-        "model": "deploy-gpt-4o-240806-01",
-        "api_type": "azure",
-        "base_url": "https://edutech-eastus.openai.azure.com/",
-        "api_version": "2023-12-01-preview",
-        "api_key": "" # 실제 키 사용 시 주의
+        "model": "gpt-4o",
+        "api_key": "" # 실제 키 사용 시 주의,
+        "base_url": "https://api.openai.com/v1",
     }
 ]
 llm_config = {
@@ -419,18 +417,16 @@ advanced_assistant = AssistantAgent(
 ###### AssistantAgent와 UserProxyAgent 연동 실습
 
 ```python
-# basic_example.py
+# 02.assistant_agent.py
 import os
 from autogen import AssistantAgent, UserProxyAgent
 
 # LLM 설정 구성
 config_list_azure = [
     {
-        "model": "deploy-gpt-4o-240806-01",
-        "api_type": "azure",
-        "base_url": "https://edutech-eastus.openai.azure.com/",
-        "api_version": "2023-12-01-preview",
-        "api_key": "" # 실제 키 사용 시 주의
+        "model": "gpt-4o",
+        "api_key": "" # 실제 키 사용 시 주의,
+        "base_url": "https://api.openai.com/v1",
     }
 ]
 llm_config = {
@@ -553,15 +549,14 @@ graph TB
 ##### GroupChat 활용 실습
 
 ```python
+# 03.group_chat.py
 from autogen import GroupChat, GroupChatManager, AssistantAgent, UserProxyAgent
 
 config_list_azure = [
     {
-        "model": "deploy-gpt-4o-240806-01",
-        "api_type": "azure",
-        "base_url": "https://edutech-eastus.openai.azure.com/",
-        "api_version": "2023-12-01-preview",
-        "api_key": "" # 실제 키 사용 시 주의
+        "model": "gpt-4o",
+        "api_key": "" # 실제 키 사용 시 주의,
+        "base_url": "https://api.openai.com/v1",
     }
 ]
 llm_config = {
@@ -727,7 +722,7 @@ Agent 생성 시 function_map 매개변수에 에 함수명을 키로, 함수 �
 #### 함수 등록 예시
 
 ```python
-# verbose_example.py
+# 04.function_call.py
 import os
 import logging
 import autogen
@@ -739,11 +734,9 @@ print("===== 상세 로깅 AutoGen 예제 시작 =====")
 # LLM 설정 구성
 config_list_azure = [
     {
-        "model": "deploy-gpt-4o-240806-01",
-        "api_type": "azure",
-        "base_url": "https://edutech-eastus.openai.azure.com/",
-        "api_version": "2023-12-01-preview",
-        "api_key": "" # 실제 키 사용 시 주의
+        "model": "gpt-4o",
+        "api_key": "" # 실제 키 사용 시 주의,
+        "base_url": "https://api.openai.com/v1",
     }
 ]
 llm_config = {
@@ -919,7 +912,7 @@ LLM의 응답 다양성과 창의성을 제어하는 하이퍼파라미터.
 #### 간단한 대화 예제
 
 ```python
-# basic_example.py
+# 05.basic_example.py
 import os
 from autogen import ConversableAgent
 
@@ -929,12 +922,10 @@ def main():
     # LLM 설정
     config_list_azure = [
         {
-            "model": "deploy-gpt-4o-240806-01",
-            "api_type": "azure",
-            "base_url": "https://edutech-eastus.openai.azure.com/",
-            "api_version": "2023-12-01-preview",
-            "api_key": "" # 실제 키 사용 시 주의
-        }
+            "model": "gpt-4o",
+            "api_key": "" # 실제 키 사용 시 주의,
+            "base_url": "https://api.openai.com/v1",
+    	}
     ]
     llm_config = {
         "cache_seed": 42, # 임의의 시드값
@@ -1038,7 +1029,8 @@ class AionuLLMClient:
 
         self.headers = {
             "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "User-Agent": "curl/8.4.0"
         }
         self.session = requests.Session()
         self.session.headers.update(self.headers)
@@ -1760,17 +1752,17 @@ print(response)
 
 ### 4.1 코드 생성 파이프라인
 ```python
+# 추가 실습 (선택)
+# 07.code_generation_pipeline.py
 from autogen import AssistantAgent, UserProxyAgent
 
 class CodeGenerationPipeline:
     """코드 생성을 위한 전문화된 파이프라인"""
     config_list_azure = [
         {
-            "model": "deploy-gpt-4o-240806-01",
-            "api_type": "azure",
-            "base_url": "https://edutech-eastus.openai.azure.com/",
-            "api_version": "2023-12-01-preview",
-            "api_key": "" # 실제 키 사용 시 주의
+            "model": "gpt-4o",
+            "api_key": "" # 실제 키 사용 시 주의,
+            "base_url": "https://api.openai.com/v1",
         }
     ]
     llm_config = {
@@ -1973,6 +1965,8 @@ if __name__ == "__main__":
 
 ### 4.2 코드 리뷰 시스템
 ```python
+# 추가실습 (선택)
+# 08.code_review_system.py
 from autogen import GroupChat, GroupChatManager, AssistantAgent, UserProxyAgent
 
 class CodeReviewSystem:
@@ -1980,11 +1974,9 @@ class CodeReviewSystem:
     
     config_list_azure = [
         {
-            "model": "deploy-gpt-4o-240806-01",
-            "api_type": "azure",
-            "base_url": "https://edutech-eastus.openai.azure.com/",
-            "api_version": "2023-12-01-preview",
-            "api_key": "" # 실제 키 사용 시 주의
+            "model": "gpt-4o",
+            "api_key": "" # 실제 키 사용 시 주의,
+            "base_url": "https://api.openai.com/v1",
         }
     ]
     llm_config = {
@@ -2228,7 +2220,7 @@ graph TD
 #### AutoGen Agent 구성
 
 ```python
-# agents/simple_agents.py
+# 09.chatbot_service/simple_chatbot_manager.py
 #pip install fastapi uvicorn jinja2
 
 import os
@@ -2241,11 +2233,9 @@ from autogen import UserProxyAgent, AssistantAgent
 
 config_list_azure = [
         {
-            "model": "deploy-gpt-4o-240806-01",
-            "api_type": "azure",
-            "base_url": "https://edutech-eastus.openai.azure.com/",
-            "api_version": "2023-12-01-preview",
-            "api_key": "" # 실제 키 사용 시 주의
+            "model": "gpt-4o",
+            "api_key": "" # 실제 키 사용 시 주의,
+            "base_url": "https://api.openai.com/v1",
         }
     ]
 llm_config = {
@@ -2388,7 +2378,7 @@ def get_chatbot_manager() -> SimpleChatbotManager:
 #### FastAPI 서버 구현
 
 ```python
-# main.py
+# 09.chatbot_service/main.py
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -3156,1637 +3146,7 @@ if __name__ == "__main__":
  uvicorn main:app --reload
 ```
 
-
-
-## 5. RAG(Retrieval-Augmented Generation)
-
-
-
-### 5.1 정의
-
-RAG(Retrieval-Augmented Generation)는 **검색 기반 증강 생성** 기술로, 외부 지식 베이스에서 관련 정보를 검색하여 대형 언어 모델(LLM)의 생성 능력을 향상시키는 AI 패러다임입니다.
-
-
-
-
-### 5.2 등장 배경
-
-- **LLM의 한계**: 훈련 데이터 컷오프, 환각(Hallucination) 문제, 특정 도메인 지식 부족
-- **정적 지식의 한계**: 실시간 정보 업데이트 불가능
-- **비용 문제**: 모든 지식을 모델에 포함시키는 것의 비효율성
-
-
-
-### 5.3 RAG의 장점
-
-- **최신 정보 활용**: 실시간 데이터베이스 검색 가능
-- **정확성 향상**: 신뢰할 수 있는 소스 기반 답변
-- **투명성**: 답변 근거 제시 가능
-- **비용 효율성**: 대규모 모델 재훈련 불필요
-- **도메인 특화**: 특정 분야 지식 베이스 활용
-
-
-
-
-
-### 5.4 RAG의 핵심 구성 요소
-
-#### Retriever (검색기)
-
-외부 지식 베이스에서 질의와 관련된 문서나 정보를 찾는 컴포넌트입니다.
-
-**주요 검색 방식:**
-
-- **Sparse Retrieval**: TF-IDF, BM25
-- **Dense Retrieval**: BERT, Sentence-BERT, DPR
-- **Hybrid Retrieval**: Sparse + Dense 결합
-
-#### Generator (생성기)
-
-검색된 정보를 바탕으로 최종 답변을 생성하는 언어 모델입니다.
-
-**대표적인 모델:**
-
-- GPT 시리즈 (GPT-3.5, GPT-4)
-- Claude (Anthropic)
-- LLaMA, Alpaca
-- KoAlpaca (한국어 특화)
-
-#### Knowledge Base (지식 베이스)
-
-검색 대상이 되는 문서, 데이터베이스, API 등의 외부 정보 저장소입니다.
-
-**종류:**
-
-- 문서 데이터베이스 (PDF, HTML, Markdown)
-- 벡터 데이터베이스 (Pinecone, Weaviate, Chroma)
-- 구조화된 데이터 (SQL, NoSQL)
-- API 기반 실시간 데이터
-
-
-
-
-
-### 5.5 검색 파이프라인
-
-사용자의 자연어 질의에 대해 관련 문서를 정확하게 찾아 의미있는 답변을 생성하는 전체 과정.
-
-- **의미 기반 검색**: 키워드 매칭을 넘어선 의미적 유사성 기반 검색
-- **문맥 이해**: 사용자 질의의 진짜 의도 파악
-- **관련성 높은 결과**: 질의와 가장 연관된 문서 청크 선별
-
-- **고품질 답변 생성** (High-Quality Response Generation)
-  - **근거 기반 답변**: 실제 문서 내용을 바탕으로 한 신뢰할 수 있는 답변
-  
-  - **환각(Hallucination) 방지**: LLM이 잘못된 정보를 생성하는 것 방지
-  
-  - **출처 추적**: 답변의 근거가 된 원본 문서 정보 제공
-  
-- **실시간 정보 접근** (Real-time Information Access)
-- **최신 정보 반영**: 새로 추가된 문서의 즉시 검색 가능
-  
-- **빠른 응답 시간**: 사용자가 기다리지 않는 검색 속도
-  
-- **확장 가능성**: 대용량 문서 컬렉션에서도 효율적 검색
-
-
-
-```mermaid
-flowchart TD
-    A[사용자 질의] --> B[질의 전처리]
-    B --> C[질의 임베딩 생성]
-    C --> D[벡터 DB 검색]
-    D --> E[Top-K 결과 추출]
-    E --> F{리랭킹 필요?}
-    F -->|Yes| G[리랭킹]
-    F -->|No| H[컨텍스트 구성]
-    G --> H
-    H --> I[LLM 프롬프트 생성]
-    I --> J[LLM 추론]
-    J --> K[최종 응답]
-    
-    style A fill:#e3f2fd
-    style D fill:#f3e5f5
-    style J fill:#e8f5e8
-    style K fill:#fff3e0
-```
-
-
-
-
-
-#### 5.5.1 사용자 질의 (User Query)
-
-사용자가 검색하고자 하는 정보를 자연어로 입력
-
-```python
-# 예시
-query = "Python에서 비동기 프로그래밍을 어떻게 구현하나요?"
-```
-
-
-
-#### 5.5.2 질의 전처리 (Query Preprocessing)
-
-검색 성능을 높이기 위해 질의를 정제하고 최적화
-
-**주요 작업들:**
-
-- **텍스트 정규화**: 대소문자 통일, 공백 정리
-- **불용어 제거**: '은', '는', '의' 등 의미 없는 단어 제거
-- **오타 교정**: 자동 맞춤법 검사
-- **질의 확장**: 동의어, 관련어 추가
-
-```python
-def preprocess_query(query):
-    # 정규화
-    query = query.lower().strip()
-    
-    # 불용어 제거 (한국어)
-    stopwords = ['은', '는', '이', '가', '을', '를', '에', '의']
-    words = [word for word in query.split() if word not in stopwords]
-    
-    return ' '.join(words)
-```
-
-
-
-#### 5.5.3 질의 임베딩 생성 (Query Embedding)
-
-**목적**: 자연어 질의를 벡터 공간의 숫자 배열로 변환
-
-**주요 모델들:**
-
-- **OpenAI Ada-002**: 범용성 좋음
-- **Sentence-BERT**: 한국어 지원 모델 있음
-- **multilingual-e5**: 다국어 지원
-
-```python
-from sentence_transformers import SentenceTransformer
-
-model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
-query_embedding = model.encode(preprocessed_query)
-# 결과: [0.1, -0.3, 0.8, ...] (보통 384-1536 차원)
-```
-
-
-
-#### 5.5.4 벡터 DB 검색 (Vector Database Search)
-
-질의 벡터와 유사한 문서 청크들을 빠르게 찾기
-
-**검색 방식:**
-
-- **코사인 유사도**: 벡터 간 각도로 유사성 측정
-- **유클리드 거리**: 벡터 간 직선 거리
-- **내적(Dot Product)**: 벡터의 방향성과 크기 고려
-
-```python
-# Chroma DB 예시
-import chromadb
-
-client = chromadb.Client()
-collection = client.get_collection("documents")
-
-results = collection.query(
-    query_embeddings=[query_embedding],
-    n_results=20  # Top-20 검색
-)
-```
-
-
-
-#### 5.5.5 Top-K 결과 추출 (Top-K Selection)
-
-검색 결과 중 가장 관련성 높은 K개 선택
-
-**K 값 선택 기준:**
-
-- **작은 K (3-5)**: 정확도 높음, 정보량 제한
-- **큰 K (15-20)**: 정보량 많음, 노이즈 증가 가능
-- **일반적 권장**: 5-10개
-
-```python
-# 유사도 점수 기준 정렬
-sorted_results = sorted(results, key=lambda x: x['score'], reverse=True)
-top_k_results = sorted_results[:k]
-```
-
-
-
-#### 5.5.6 리랭킹 (Re-ranking)
-
-- 초기 검색 결과의 순서를 더 정밀하게 재조정
-
-- 초기 검색 결과 품질이 낮을 때
-- 정확도가 중요한 도메인 (의료, 법률)
-- 복잡한 질의일 때
-
-**리랭킹 방법**
-
-**Cross-Encoder 모델:**
-
-```python
-from sentence_transformers import CrossEncoder
-
-reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
-
-# 질의-문서 쌍별로 정밀 점수 계산
-pairs = [[query, doc['content']] for doc in top_k_results]
-scores = reranker.predict(pairs)
-
-# 점수 기준 재정렬
-reranked_results = [doc for _, doc in sorted(zip(scores, top_k_results), reverse=True)]
-```
-
-**MMR (Maximal Marginal Relevance):**
-
-```python
-def mmr_rerank(query_embedding, documents, lambda_param=0.7):
-    """관련성과 다양성을 균형있게 고려"""
-    selected = []
-    remaining = documents.copy()
-    
-    while remaining and len(selected) < k:
-        best_score = -1
-        best_doc = None
-        
-        for doc in remaining:
-            # 관련성 점수
-            relevance = cosine_similarity(query_embedding, doc['embedding'])
-            
-            # 다양성 점수 (기선택 문서와의 최대 유사도)
-            if selected:
-                max_sim = max([cosine_similarity(doc['embedding'], s['embedding']) 
-                              for s in selected])
-            else:
-                max_sim = 0
-                
-            # MMR 점수 계산
-            mmr_score = lambda_param * relevance - (1 - lambda_param) * max_sim
-            
-            if mmr_score > best_score:
-                best_score = mmr_score
-                best_doc = doc
-                
-        selected.append(best_doc)
-        remaining.remove(best_doc)
-        
-    return selected
-```
-
-
-
-#### 5.5.7 컨텍스트 구성 (Context Construction)
-
-선별된 문서 청크들을 LLM이 이해하기 쉽게 구성
-
-**주요 작업:**
-
-- **순서 정렬**: 관련성 순 또는 문서 원래 순서
-- **중복 제거**: 유사한 내용 필터링
-- **길이 조절**: 토큰 한계 내에서 최적화
-
-```python
-def construct_context(selected_docs, max_tokens=2000):
-    context_parts = []
-    total_tokens = 0
-    
-    for i, doc in enumerate(selected_docs):
-        doc_text = f"[문서 {i+1}]\n{doc['content']}\n"
-        doc_tokens = len(doc_text.split())  # 단순 토큰 추정
-        
-        if total_tokens + doc_tokens <= max_tokens:
-            context_parts.append(doc_text)
-            total_tokens += doc_tokens
-        else:
-            break
-            
-    return "\n".join(context_parts)
-```
-
-
-
-#### 5.5.8 LLM 프롬프트 생성 (LLM Prompt Construction)
-
-컨텍스트와 질의를 결합하여 LLM 입력 생성
-
-```python
-def create_prompt(query, context):
-    prompt = f"""다음 문서들을 참고하여 질문에 답해주세요.
-
-[참고 문서]
-{context}
-
-[질문]
-{query}
-
-[답변]
-위 문서를 바탕으로 정확하고 구체적으로 답변해주세요."""
-
-    return prompt
-```
-
-
-
-#### 5.5.9 LLM 추론 (LLM Inference)
-
-구성된 프롬프트를 바탕으로 최종 답변 생성
-
-**주요 LLM들:**
-
-- **GPT-4**: 높은 품질, 비용 높음
-- **Claude**: 긴 컨텍스트 처리 우수
-- **Llama 2/3**: 오픈소스, 온프레미스 가능
-
-```python
-import openai
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[
-        {"role": "system", "content": "당신은 도움이 되는 AI 어시스턴트입니다."},
-        {"role": "user", "content": prompt}
-    ],
-    temperature=0.1,  # 일관된 답변을 위해 낮게 설정
-    max_tokens=1000
-)
-
-answer = response.choices[0].message.content
-```
-
-
-
-#### 5.5.10 최종 응답 (Final Response)
-
-**목적**: 사용자에게 완성된 답변을 반환
-
-**추가 처리:**
-
-- **출처 정보 추가**: 어떤 문서에서 온 정보인지 표시
-- **신뢰도 점수**: 답변의 확실성 정도
-- **관련 링크**: 더 자세한 정보를 위한 원본 문서 링크
-
-```python
-def format_final_response(answer, sources):
-    formatted_response = f"{answer}\n\n"
-    
-    if sources:
-        formatted_response += "**참고 자료:**\n"
-        for i, source in enumerate(sources):
-            formatted_response += f"{i+1}. {source['title']} (점수: {source['score']:.2f})\n"
-    
-    return formatted_response
-```
-
-
-
-#### 5.5.11 성능 최적화
-
-- **캐싱**: 자주 검색되는 질의 결과 저장
-
-- **배치 처리**: 여러 질의를 한번에 임베딩 생성
-- **인덱스 최적화**: 벡터 DB의 인덱스 설정 조정
-
-- **비동기 처리**: 검색과 LLM 추론을 병렬로 수행
-
-
-
-
-
-### 5.6 데이터 파이프라인
-
-원본 문서를 검색 가능한 형태로 변환하여 벡터 데이터베이스에 저장하는 전체 과정
-
-- **문서 접근성 향상**: 대용량 문서를 빠르게 검색 가능하도록 구조화
-- **의미적 검색 지원**: 키워드가 아닌 의미 기반으로 정보 검색
-- **확장성 확보**: 새로운 문서 추가 시 자동으로 처리
-- **품질 보장**: 노이즈 제거 및 중복 데이터 정리로세스
-
-```mermaid
-
-flowchart TD
-    A[원본 데이터 소스] --> B[데이터 수집]
-    B --> C[데이터 검증 및 품질 체크]
-    C --> D[문서 파싱]
-    D --> E[전처리]
-    E --> F[청킹]
-    F --> G[메타데이터 추출]
-    G --> H[임베딩 생성]
-    H --> I[벡터 DB 저장]
-    I --> J[인덱싱]
-    J --> K[검색 서비스 준비]
-   
-   
-    style A fill:#e3f2fd
-    style C fill:#fff3e0
-    style F fill:#e8f5e8
-    style H fill:#f3e5f5
-    style I fill:#ffebee
-
-```
-
-
-
-####  5.6.1 원본 데이터 소스
-
-- **파일 시스템**: PDF, DOCX, TXT, MD, HTML 등 정적 파일들. 구조화 정도와 메타데이터 풍부도가 다름
-- **데이터베이스**: 구조화된 데이터로 스키마 정보 활용 가능. 실시간 업데이트 반영 필요
-- **웹 소스**: 동적 콘텐츠로 변화 주기가 빠름. 크롤링 정책과 로봇 배제 표준 준수 필요
-- **API**: 실시간 데이터 접근 가능하나 API 제한과 인증 관리 필요
-- **클라우드 스토리지**: 대용량 처리 가능하나 네트워크 비용과 보안 고려사항 존재
-
-
-
-#### 5.6.2 데이터 수집 (Data Collection)
-
-- **배치 수집**: 정해진 시간에 대량 데이터를 일괄 처리. 리소스 집중 사용하나 안정적
-- **실시간 수집**: 변경사항 즉시 반영. 높은 반응성이지만 시스템 복잡도 증가
-- **증분 수집**: 변경된 부분만 수집하여 효율성 높임. 변경 감지 메커니즘 필요
-- **이벤트 기반 수집**: 특정 이벤트 발생 시 수집 트리거. 정확한 타이밍이지만 누락 위험
-
-
-
-#### 5.6.3 데이터 검증 및 품질 체크 
-
-- **길이 기준**: 너무 짧은 문서는 의미 있는 정보 부족, 너무 긴 문서는 처리 부담
-- **언어 감지**: 다국어 환경에서 언어별 처리 파이프라인 분기
-- **콘텐츠 밀도**: 실제 텍스트 대비 마크업이나 메타데이터 비율 평가
-- **가독성 점수**: 문서의 이해 가능성과 구조화 정도 측정
-
-- **중복 처리 전략**
-
-  - **완전 중복**: 동일한 내용의 문서 제거
-
-  - **부분 중복**: 유사도 임계값 기반 중복 판단
-
-  - **버전 관리**: 같은 문서의 다른 버전 처리 정책
-
-  - **출처별 우선순위**: 신뢰도 높은 출처 우선 선택
-
-- **보안 및 규정 준수**
-
-​	개인정보, 기밀 정보, 저작권 보호 콘텐츠 식별 및 처리 정책 적용이 필요합니다.
-
-
-
-#### 5.6.4 문서 파싱 (Document Parsing)
-
-- **형식별 파싱** 
-  - **PDF**: 레이아웃 정보, 이미지, 표 구조 보존. OCR 필요한 스캔 PDF 처리
-  
-  - **HTML**: DOM 구조 분석, CSS 스타일 제거, 의미 있는 콘텐츠 추출
-  
-  - **Office 문서**: 스타일 정보, 표, 차트, 주석 등 복합 요소 처리
-  
-  - **마크다운**: 구조화된 텍스트로 상대적으로 단순하나 확장 문법 고려 필요
-  
-- **구조 정보 보존**
-  - 제목 계층, 단락 구분, 리스트 구조, 표 형식 등 문서의 논리적 구조를 메타데이터로 보존하여 추후 검색과 표시에 활용합니다.
-
-- **다국어 처리**
-  - 언어별 텍스트 추출 규칙, 문자 인코딩 처리, 언어 혼재 문서 처리 등이 필요합니다.
-
-- **멀티미디어 요소 처리**
-  - 이미지의 OCR 처리, 차트와 다이어그램의 텍스트 추출, 오디오/비디오 파일의 전사(transcription) 등을 고려해야 합니다.
-
-
-
-#### 5.6.5 전처리 (Preprocessing)
-
-- **텍스트 정규화**
-
-  - **공백 처리**: 연속 공백, 탭, 줄바꿈 정규화
-
-  - **문자 정규화**: 유니코드 정규화, 특수문자 통일
-
-  - **대소문자 처리**: 언어와 도메인 특성에 따른 적절한 처리
-
-  - **문장 부호 처리**: 의미에 영향 주지 않는 문장부호 정리
-
-- **불필요 요소 제거**
-
-  - **보일러플레이트**: 헤더, 푸터, 내비게이션 등 반복적 요소
-
-  - **광고 및 링크**: 본문 내용과 무관한 요소들
-
-  - **메타 정보**: 문서 속성, 수정 이력 등 검색에 불필요한 정보
-
-  - **포매팅 태그**: HTML 태그, 스타일 정보 등
-
-- **언어별 특화 처리**
-
-  - **한국어**: 조사 처리, 띄어쓰기 보정, 한자어 변환
-
-  - **영어**: 축약형 확장, 동의어 정규화
-
-  - **일본어**: 히라가나/가타카나/한자 혼재 처리
-
-  - **중국어**: 간체/번체 통일, 분사 처리
-
-- **도메인 특화 전처리**
-  
-  - 기술 문서의 코드 블록, 의료 문서의 전문 용어, 법률 문서의 조항 번호 등 도메인별 특수 요소 처리가 필요합니다.
-  
-  
-
-#### 5.6.6 청킹 (Chunking)
-
-- RAG 시스템에서 긴 문서나 텍스트를 작은 의미있는 조각(chunk)으로 나누는 과정입니다. 
-- 각 청크는 독립적으로 벡터화되어 임베딩 벡터로 변환되고, 사용자 질의와 유사도 검색을 통해 가장 관련성 높은 정보를 찾는 데 사용됩니다.
-
-- **청킹 전략** 
-
-  - **문서 구조**: 체계적 구조 vs 자유형 텍스트
-
-  - **내용 밀도**: 정보 집약도와 문맥 연결성
-
-  - **검색 패턴**: 사용자의 일반적 질의 길이와 구체성
-
-  - **모델 제약**: 임베딩 모델의 최대 토큰 길이 제한
-
-- **청킹 품질 평가**
-
-  - **완결성**: 각 청크가 독립적으로 의미를 가지는가
-
-  - **일관성**: 청크 크기의 균일성과 예측 가능성
-
-  - **연속성**: 인접 청크 간의 자연스러운 연결
-
-  - **효율성**: 저장 공간 대비 검색 성능
-
-- **청킹 방식**
-
-##### 	고정 크기 청킹 (Fixed-size Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 일정한 크기로 텍스트를 균등 분할                             |
-|   **방식**    | 문자 수 또는 토큰 수 기준으로 분할                           |
-|   **장점**    | - 구현 단순<br>- 처리 속도 빠름<br>- 메모리 사용량 예측 가능<br>- 청크 크기 일관성 |
-|   **단점**    | - 문맥 경계 무시<br>- 문장/단락 중간에서 분할 가능<br>- 의미 단위 고려 안됨 |
-| **적용 사례** | 대용량 로그 분석, 단순 텍스트 검색                           |
-
-  ##### 	문장 기반 청킹 (Sentence-based Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 문장 경계를 유지하면서 분할                                  |
-|   **방식**    | 문장 단위로 분할 후 지정 크기까지 결합                       |
-|   **장점**    | - 문법적 완전성 보장<br>- 가독성 높음<br>- 자연스러운 문맥 유지 |
-|   **단점**    | - 청크 크기 불균등<br>- 긴 문장 처리 어려움<br>- 언어별 문장 분리 규칙 필요 |
-| **적용 사례** | 뉴스 기사, 블로그 포스트, 일반 문서                          |
-
-  ##### 	단락 기반 청킹 (Paragraph-based Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 논리적 단위인 단락 경계 유지                                 |
-|   **방식**    | 단락(\n\n) 기준으로 분할 후 크기 조정                        |
-|   **장점**    | - 주제별 일관성 유지<br>- 논리적 구조 보존<br>- 문맥 완결성 높음 |
-|   **단점**    | - 단락 크기 편차 큼<br>- 긴 단락 처리 복잡<br>- 구조화되지 않은 텍스트에 부적합 |
-| **적용 사례** | 학술 논문, 기술 문서, 소설                                   |
-
-  ##### 	의미 기반 청킹 (Semantic Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 의미적 유사성 기준으로 분할                                  |
-|   **방식**    | 문장 임베딩 유사도로 경계 결정                               |
-|   **장점**    | - 의미적 일관성 최대화<br>- 검색 정확도 향상<br>- 문맥 보존 우수 |
-|   **단점**    | - 계산 비용 높음<br>- 처리 시간 오래 걸림<br>- 임베딩 모델 품질에 의존 |
-| **적용 사례** | 전문 지식 베이스, QA 시스템, 기술 매뉴얼                     |
-
-  ##### 	계층적 청킹 (Hierarchical Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 문서 구조를 반영한 다층 분할                                 |
-|   **방식**    | 제목, 섹션, 단락 순으로 계층적 분할                          |
-|   **장점**    | - 문서 구조 보존<br>- 다양한 검색 입도 지원<br>- 컨텍스트 계층 정보 활용 |
-|   **단점**    | - 구현 복잡도 높음<br>- 구조화된 문서에만 적용<br>- 저장 공간 더 필요 |
-| **적용 사례** | API 문서, 사용자 매뉴얼, 법률 문서                           |
-
-  ##### 	오버랩 청킹 (Overlapping Chunking)
-
-|     항목      | 내용                                                         |
-| :-----------: | ------------------------------------------------------------ |
-|   **목적**    | 청크 간 경계에서 정보 손실 방지                              |
-|   **방식**    | 인접 청크 간 일정 부분 중복                                  |
-|   **장점**    | - 경계 정보 손실 방지<br>- 검색 연속성 향상<br>- 분할로 인한 정보 단절 최소화 |
-|   **단점**    | - 저장 공간 증가<br>- 중복 검색 결과 가능<br>- 처리 시간 증가 |
-| **적용 사례** | 코드 문서, 연속적인 설명이 중요한 텍스트                     |
-
-
-
-#### 5.6.7 메타데이터 추출 (Metadata Extraction)
-
-- 자동 추출 메타데이터
-
-  - **통계 정보**: 단어 수, 문장 수, 평균 문장 길이
-
-  - **언어학적 특성**: 언어, 가독성 지수, 문체 분석
-
-  - **의미적 특성**: 키워드, 주제, 감정 분석, 개체명
-
-  - **구조적 특성**: 제목 수, 리스트 항목 수, 표 개수
-
-- 수동 메타데이터 관리
-  - 문서 분류, 중요도, 신뢰도, 접근 권한 등 자동으로 판단하기 어려운 정보들은 수동으로 관리하거나 규칙 기반으로 할당합니다.
-
-- 메타데이터 표준화
-  - 일관된 메타데이터 스키마와 어휘집(vocabulary) 사용으로 검색과 필터링의 정확성을 높입니다.
-
-- 동적 메타데이터
-  - 사용 빈도, 최근 수정일, 사용자 평가 등 시간에 따라 변하는 메타데이터도 관리합니다.
-
-
-
-#### 5.6.8 임베딩 생성 (Embedding Generation)
-
-- 임베딩 모델 선택 기준
-
-  - **언어 지원**: 대상 언어의 품질과 다국어 처리 능력
-
-  - **도메인 특화**: 일반 도메인 vs 전문 분야 특화 모델
-
-  - **성능**: 정확도, 처리 속도, 메모리 사용량
-
-  - **차원 수**: 고차원(정확도 높음) vs 저차원(속도 빠름)
-
-
-- 배치 처리 최적화
-  - GPU 메모리 제한 내에서 최대한 많은 텍스트를 동시 처리하여 효율성을 높입니다. 긴 텍스트는 분할 처리 후 결합하는 전략도 필요합니다.
-
-- 임베딩 품질 관리
-
-  - **일관성**: 같은 의미의 텍스트는 유사한 벡터 생성
-
-  - **구분성**: 다른 의미의 텍스트는 충분히 구분되는 벡터 생성
-
-  - **안정성**: 모델 업데이트 시에도 기존 임베딩과 호환성 유지
-
-
-
-
-
-
-#### 5.6.9 벡터 DB 저장 (Vector Database Storage)
-
-- 저장 구조 설계
-
-  - **인덱스 전략**: 검색 속도 vs 저장 공간 vs 업데이트 비용 최적화
-
-  - **샤딩**: 대용량 데이터의 분산 저장과 병렬 처리
-
-  - **복제**: 고가용성과 부하 분산을 위한 데이터 복제
-
-  - **압축**: 벡터 데이터의 효율적 압축과 근사 검색
-
-
-- 벡터 DB별 특성 고려
-
-  - **Pinecone**: 클라우드 기반 관리형 서비스, 확장성 우수
-
-  - **Weaviate**: 오픈소스, 그래프 기반 관계 표현 가능
-
-  - **Chroma**: 경량화된 로컬 실행 가능
-
-  - **FAISS**: 페이스북 개발, 고성능 유사도 검색 특화
-
-
-
-
-#### 5.6.10 인덱싱 (Indexing)
-
-- 벡터 인덱스 유형
-
-  - **Flat Index**: 정확한 검색이지만 느린 속도
-
-  - **IVF**: 클러스터링 기반 근사 검색, 속도와 정확도 균형
-
-  - **HNSW**: 그래프 기반 고성능 근사 검색
-
-  - **LSH**: 해시 기반 고속 근사 검색
-
-- 메타데이터 인덱스
-  - 필터링과 faceted search를 위한 메타데이터 필드별 인덱스 생성이 검색 성능에 크게 영향을 미칩니다.
-
-- 인덱스 튜닝
-  - 데이터 크기, 검색 패턴, 성능 요구사항에 따른 인덱스 파라미터 최적화가 지속적으로 필요합니다.
-  
-  
-
-
-#### 5.6.11 검색 서비스 준비 (Search Service Preparation)
-
-- API 설계
-  - RESTful API 또는 GraphQL을 통한 검색 인터페이스 설계 시 검색 옵션의 유연성과 응답 형식의 일관성을 고려해야 합니다.
-
-- 캐싱 전략
-  - 자주 검색되는 질의와 결과를 캐싱하여 응답 속도를 높이고 시스템 부하를 줄입니다. TTL과 무효화 정책도 중요합니다.
-
-
-
-### 5.7 RAG 예제
-
-#### 단계별 구현 프로세스
-
-**Step 1: 환경 설정**
-
-```bash
-pip install ag2[openai] chromadb sentence_transformers numpy
-```
-
-**Step 2: 문서 준비 및 청킹**
-
-- 문서를 적절한 크기로 분할 (보통 200-1000 토큰)
-- 중복 제거 및 메타데이터 추가
-
-**Step 3: 임베딩 모델 선택**
-
-- **다국어**: multilingual-e5-large
-- **한국어**: KoSentence-BERT
-- **영어**: all-MiniLM-L6-v2
-
-**Step 4: 벡터 데이터베이스 구축**
-
-- Chroma, Pinecone, Weaviate 등 활용
-- 인덱스 최적화
-
-**Step 5: 검색 시스템 구축**
-
-- 유사도 기반 검색 구현
-- 하이브리드 검색 적용
-
-**Step 6: 생성 모델 통합**
-
-- LLM API 연동
-- 프롬프트 엔지니어링
-  
-
-#### 단순 RAG 예제
-
-- 문서 기반 질의응답: ChromaDB에 저장된 문서를 검색하여 정확한 답변 제공
-- 의미적 검색: 키워드가 아닌 문맥과 의미를 기반으로 관련 문서 검색
-- RAG 에이전트: 문서 검색 기능이 통합된 AI 에이전트
-- 자동화된 테스트: 5가지 다른 유형의 질문으로 시스템 성능 검증
-
-##### 구성도
-
-```mermaid
-flowchart TD
-    A[시스템 초기화] --> B[Azure OpenAI 설정]
-    B --> C[DocumentRetriever 초기화]
-    C --> D[ChromaDB 클라이언트 생성]
-    D --> E[SentenceTransformer 임베딩 함수 설정]
-    E --> F[컬렉션 생성/로드]
-    F --> G[샘플 문서 준비]
-    G --> H[문서 벡터화 및 저장]
-    H --> I[RAGAgent 생성]
-    I --> J[UserProxy 생성]
-    J --> K{테스트 질문 순회}
-    K --> L[사용자 질문 입력]
-    L --> M[RAGAgent: 문서 검색]
-    M --> N[관련 문서 추출]
-    N --> O[컨텍스트 구성]
-    O --> P[LLM 호출 및 응답 생성]
-    P --> Q[응답 출력]
-    Q --> K
-    K --> R[모든 테스트 완료]
-```
-
-##### 샘플 코드
-
-```python
-import os
-import asyncio
-from typing import List, Dict, Any
-import chromadb
-from chromadb.utils import embedding_functions
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
-import openai
-from sentence_transformers import SentenceTransformer
-import numpy as np
-
-class DocumentRetriever:
-    """문서 검색을 위한 ChromaDB 기반 벡터 스토어"""
-    
-    def __init__(self, collection_name: str = "documents"):
-        """
-        DocumentRetriever 초기화
-        Args:
-            collection_name: ChromaDB 컬렉션 이름
-        """
-        print(f"[DocumentRetriever] 초기화 시작 - 컬렉션명: {collection_name}")
-        
-        # ChromaDB 클라이언트 초기화
-        self.client = chromadb.Client()
-        print("[DocumentRetriever] ChromaDB 클라이언트 생성 완료")
-        
-        # SentenceTransformer를 사용한 임베딩 함수 설정
-        # all-MiniLM-L6-v2 모델은 384차원 벡터를 생성하는 경량화된 모델
-        self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
-        )
-        print("[DocumentRetriever] SentenceTransformer 임베딩 함수 설정 완료")
-        
-        # 컬렉션 생성 또는 기존 컬렉션 가져오기
-        try:
-            # 기존 컬렉션이 있으면 가져오기
-            self.collection = self.client.get_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
-            print(f"[DocumentRetriever] 기존 컬렉션 '{collection_name}' 로드 완료")
-        except:
-            # 컬렉션이 없으면 새로 생성
-            self.collection = self.client.create_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
-            print(f"[DocumentRetriever] 새 컬렉션 '{collection_name}' 생성 완료")
-    
-    def add_documents(self, documents: List[str], metadatas: List[Dict] = None):
-        """
-        문서를 벡터 스토어에 추가
-        Args:
-            documents: 추가할 문서들의 리스트
-            metadatas: 각 문서의 메타데이터 (선택사항)
-        """
-        print(f"[DocumentRetriever] 문서 추가 시작 - 총 {len(documents)}개 문서")
-        
-        # 각 문서에 고유 ID 생성
-        ids = [f"doc_{i}" for i in range(len(documents))]
-        print(f"[DocumentRetriever] 문서 ID 생성 완료: {ids}")
-        
-        # 메타데이터가 제공되지 않은 경우 기본 메타데이터 생성
-        if metadatas is None:
-            metadatas = [{"source": f"document_{i}"} for i in range(len(documents))]
-            print("[DocumentRetriever] 기본 메타데이터 생성 완료")
-        
-        # ChromaDB 컬렉션에 문서 추가
-        # 이 과정에서 문서들이 자동으로 벡터화되어 저장됨
-        self.collection.add(
-            documents=documents,
-            metadatas=metadatas,
-            ids=ids
-        )
-        print(f"[DocumentRetriever] ChromaDB에 {len(documents)}개 문서 추가 완료")
-        
-        # 추가된 문서들의 내용 미리보기 출력
-        for i, doc in enumerate(documents):
-            preview = doc[:100] + "..." if len(doc) > 100 else doc
-            print(f"[DocumentRetriever] 문서 {i+1}: {preview}")
-    
-    def search(self, query: str, n_results: int = 3) -> List[str]:
-        """
-        쿼리와 관련된 문서 검색
-        Args:
-            query: 검색할 질의
-            n_results: 반환할 결과 개수
-        Returns:
-            관련도가 높은 문서들의 리스트
-        """
-        print(f"[DocumentRetriever] 문서 검색 시작 - 쿼리: '{query}', 결과 개수: {n_results}")
-        
-        # ChromaDB의 유사도 검색 수행
-        # 쿼리를 벡터화하고 저장된 문서 벡터들과 코사인 유사도 계산
-        results = self.collection.query(
-            query_texts=[query],
-            n_results=n_results
-        )
-        
-        # 검색 결과 추출
-        documents = results['documents'][0] if results['documents'] else []
-        print(f"[DocumentRetriever] 검색 완료 - {len(documents)}개 문서 발견")
-        
-        # 검색된 문서들의 미리보기 출력
-        for i, doc in enumerate(documents):
-            preview = doc[:100] + "..." if len(doc) > 100 else doc
-            print(f"[DocumentRetriever] 검색 결과 {i+1}: {preview}")
-        
-        return documents
-
-class RAGAgent(AssistantAgent):
-    """RAG 기능이 통합된 AG2 에이전트"""
-    
-    def __init__(self, name: str, retriever: DocumentRetriever, **kwargs):
-        """
-        RAGAgent 초기화
-        Args:
-            name: 에이전트 이름
-            retriever: 문서 검색기 인스턴스
-            **kwargs: AssistantAgent의 기타 매개변수
-        """
-        print(f"[RAGAgent] 초기화 시작 - 에이전트명: {name}")
-        super().__init__(name, **kwargs)
-        self.retriever = retriever
-        print(f"[RAGAgent] RAG 에이전트 '{name}' 초기화 완료")
-
-    def retrieve_documents(self, query: str) -> List[Dict[str, Any]]:
-        """
-        문서 검색 메서드
-        Args:
-            query: 검색할 질의
-        Returns:
-            검색된 문서들을 딕셔너리 형태로 반환
-        """
-        print(f"[RAGAgent] retrieve_documents 호출 - 쿼리: '{query}'")
-        
-        # DocumentRetriever를 사용하여 관련 문서 검색
-        documents = self.retriever.search(query, n_results=3)
-        print(f"[RAGAgent] 문서 검색 완료 - {len(documents)}개 문서 검색됨")
-        
-        # 검색 결과를 딕셔너리 형태로 변환
-        formatted_docs = [{"content": doc} for doc in documents]
-        print(f"[RAGAgent] 문서 포맷팅 완료")
-        
-        return formatted_docs        
-    
-    async def a_generate_reply(self, messages=None, sender=None, **kwargs):
-        """
-        비동기 응답 생성 메서드 (RAG 기능 통합)
-        Args:
-            messages: 대화 메시지 목록
-            sender: 메시지 발신자
-            **kwargs: 추가 매개변수
-        Returns:
-            RAG 컨텍스트가 포함된 응답
-        """
-        print(f"[RAGAgent] a_generate_reply 시작 - sender: {sender}")
-        print(f"[RAGAgent] 입력 메시지 개수: {len(messages) if messages else 0}")
-        
-        # messages가 None인 경우 sender로부터 메시지 가져오기
-        if messages is None and sender is not None:
-            print(f"[RAGAgent] sender로부터 메시지 가져오기 시도")
-            if hasattr(self, 'chat_messages') and sender in self.chat_messages:
-                messages = self.chat_messages[sender]
-                print(f"[RAGAgent] chat_messages에서 {len(messages)}개 메시지 발견")
-            else:
-                messages = []
-                print(f"[RAGAgent] chat_messages에서 메시지를 찾을 수 없어 빈 리스트 사용")
-        
-        # 메시지가 여전히 None이거나 빈 리스트인 경우 기본 처리
-        if not messages:
-            print(f"[RAGAgent] 메시지가 없어 기본 응답 생성으로 전환")
-            return await super().a_generate_reply(messages=messages, sender=sender, **kwargs)
-        
-        # 마지막 메시지에서 검색할 텍스트 추출
-        last_message = messages[-1].get('content', '') if isinstance(messages[-1], dict) else str(messages[-1])
-        print(f"[RAGAgent] 검색용 쿼리 추출: '{last_message[:100]}{'...' if len(last_message) > 100 else ''}'")
-        
-        # 문서 검색 수행
-        print(f"[RAGAgent] 관련 문서 검색 시작")
-        retrieved_docs = self.retrieve_documents(last_message)
-        
-        if retrieved_docs:
-            print(f"[RAGAgent] {len(retrieved_docs)}개 관련 문서 발견, 컨텍스트 구성 중")
-            
-            # 검색된 문서들을 컨텍스트로 구성
-            context = "\n\n=== 관련 문서 ===\n" + "\n".join([
-                f"문서 {i+1}: {doc['content']}" 
-                for i, doc in enumerate(retrieved_docs)
-            ])
-            print(f"[RAGAgent] 컨텍스트 구성 완료 - 길이: {len(context)} 문자")
-            
-            # 메시지 복사 및 컨텍스트 추가
-            modified_messages = messages.copy()
-            if isinstance(modified_messages[-1], dict):
-                original_content = modified_messages[-1].get('content', '')
-                modified_messages[-1] = {
-                    'role': modified_messages[-1].get('role', 'user'),
-                    'content': original_content + context
-                }
-                print(f"[RAGAgent] 딕셔너리 형태 메시지에 컨텍스트 추가 완료")
-            else:
-                original_content = str(modified_messages[-1])
-                modified_messages[-1] = original_content + context
-                print(f"[RAGAgent] 문자열 형태 메시지에 컨텍스트 추가 완료")
-                
-            print(f"[RAGAgent] 최종 메시지 길이: {len(str(modified_messages[-1]))} 문자")
-        else:
-            print(f"[RAGAgent] 관련 문서를 찾지 못해 원본 메시지 사용")
-            modified_messages = messages
-        
-        print(f"[RAGAgent] 상위 클래스의 응답 생성 메서드 호출")
-        # 수정된 메시지로 상위 클래스의 응답 생성 메서드 호출
-        response = await super().a_generate_reply(messages=modified_messages, sender=sender, **kwargs)
-        print(f"[RAGAgent] 응답 생성 완료")
-        
-        return response
-        
-
-def setup_azure_openai():
-    """
-    Azure OpenAI 설정 함수
-    Returns:
-        Azure OpenAI API 설정 딕셔너리
-    """
-    print("[setup_azure_openai] Azure OpenAI 설정 시작")
-    
-    config = {
-        "model": "deploy-gpt-4o-240806-01",  # 배포된 모델명
-        "api_type": "azure",                 # Azure OpenAI 서비스 사용
-        "base_url": "https://edutech-eastus.openai.azure.com/",  # Azure OpenAI 엔드포인트
-        "api_version": "2023-12-01-preview", # API 버전
-        "api_key": "a634b87afef5450e8b3a6e729a809c5f"  # API 키 (실제 운영 시 환경변수 사용 권장)
-    }
-    
-    print(f"[setup_azure_openai] 설정 완료 - 모델: {config['model']}, 엔드포인트: {config['base_url']}")
-    return config
-
-async def main():
-    """메인 실행 함수"""
-    
-    print("=" * 80)
-    print("AG2 RAG 시스템 초기화 시작")
-    print("=" * 80)
-    
-    # Azure OpenAI 설정
-    print("\n[1단계] Azure OpenAI 설정")
-    llm_config = setup_azure_openai()
-    print("Azure OpenAI 설정 완료\n")
-    
-    # 문서 검색기 초기화
-    print("[2단계] 문서 검색기 초기화")
-    retriever = DocumentRetriever()
-    print("문서 검색기 초기화 완료\n")
-    
-    # 샘플 문서 준비
-    print("[3단계] 샘플 문서 준비")
-    sample_documents = [
-        "Python은 1991년 귀도 반 로섬이 개발한 고급 프로그래밍 언어입니다. Python은 간단하고 읽기 쉬운 문법으로 유명하며, 데이터 분석, 웹 개발, 인공지능 등 다양한 분야에서 사용됩니다.",
-        
-        "머신러닝은 인공지능의 한 분야로, 컴퓨터가 명시적으로 프로그래밍되지 않고도 데이터로부터 학습할 수 있게 하는 기술입니다. 지도학습, 비지도학습, 강화학습 등의 방법이 있습니다.",
-        
-        "자연어처리(NLP)는 컴퓨터가 인간의 언어를 이해하고 처리할 수 있게 하는 기술입니다. 텍스트 분류, 감정 분석, 기계 번역, 질의응답 시스템 등에 활용됩니다.",
-        
-        "RAG(Retrieval-Augmented Generation)는 검색 기반 생성 모델로, 외부 지식베이스에서 관련 정보를 검색하여 더 정확하고 최신의 정보를 바탕으로 답변을 생성하는 기술입니다.",
-        
-        "AG2(AutoGen 2.0)는 Microsoft에서 개발한 다중 에이전트 대화 프레임워크로, 여러 AI 에이전트가 협력하여 복잡한 작업을 수행할 수 있게 해줍니다."
-    ]
-    print(f"총 {len(sample_documents)}개의 샘플 문서 준비 완료\n")
-    
-    # 문서 추가
-    print("[4단계] 문서를 벡터 데이터베이스에 추가")
-    retriever.add_documents(sample_documents)
-    print("문서 추가 완료\n")
-    
-    # AG2 에이전트 설정
-    print("[5단계] AG2 에이전트 설정")
-    
-    # RAG 기능이 통합된 Assistant Agent 생성
-    rag_agent = RAGAgent(
-        name="RAG_Assistant",
-        retriever=retriever,
-        system_message="""당신은 RAG(검색 증강 생성) 기능을 갖춘 AI 어시스턴트입니다. 
-        제공된 문서들을 기반으로 정확하고 유용한 답변을 제공해주세요. 
-        문서에서 직접적인 정보를 찾을 수 없는 경우, 그 사실을 명시하고 일반적인 지식을 바탕으로 도움을 드리겠습니다.""",
-        llm_config=llm_config,
-        max_consecutive_auto_reply=3  # 최대 3번까지 연속 자동 응답
-    )
-    print("RAG Assistant 에이전트 생성 완료")
-    
-    # 사용자 프록시 에이전트 생성
-    user_proxy = UserProxyAgent(
-        name="User",
-        human_input_mode="NEVER",  # 자동 테스트를 위해 사람 입력 없이 실행
-        max_consecutive_auto_reply=1,  # 사용자 프록시는 1번만 응답
-        code_execution_config=False  # 코드 실행 기능 비활성화
-    )
-    print("User Proxy 에이전트 생성 완료\n")
-    
-    # 대화 시작
-    print("=" * 80)
-    print("AG2 RAG 시스템 테스트 시작")
-    print("=" * 80)
-    
-    # 테스트할 질문들 정의
-    test_questions = [
-        "Python에 대해 설명해주세요.",                    # 문서에 있는 정보
-        "RAG가 무엇인지 알려주세요.",                      # 문서에 있는 정보
-        "머신러닝과 자연어처리의 관계는 무엇인가요?",       # 두 문서의 정보를 조합해야 하는 질문
-        "AG2 프레임워크의 특징을 설명해주세요.",           # 문서에 있는 정보
-        "LangChain 프레임워크의 특징을 설명해주세요."      # 문서에 없는 정보 (RAG 한계 테스트)
-    ]
-    
-    print(f"총 {len(test_questions)}개의 테스트 질문 준비\n")
-    
-    # 각 질문에 대해 RAG 시스템 테스트
-    for i, question in enumerate(test_questions, 1):
-        print(f"테스트 {i}/{len(test_questions)}")
-        print(f"질문: {question}")
-        print("-" * 50)
-        
-        try:
-            # 비동기 대화 시작
-            # user_proxy가 질문을 보내면 rag_agent가 문서를 검색하고 답변 생성
-            print(f"[main] 대화 시작 - 질문 {i}")
-            await user_proxy.a_initiate_chat(
-                rag_agent,                # 대화 상대방 (RAG Assistant)
-                message=question,         # 전송할 메시지
-                clear_history=False       # 대화 기록 유지
-            )
-            print(f"[main] 대화 완료 - 질문 {i}")
-            
-        except Exception as e:
-            print(f"[ERROR] 질문 {i} 처리 중 오류 발생: {str(e)}")
-            import traceback
-            traceback.print_exc()
-        
-        print("\n" + "="*80 + "\n")
-    
-    print("AG2 RAG 시스템 테스트 완료")
-    print("=" * 80)
-
-
-if __name__ == "__main__":
-    """
-    프로그램 진입점
-    비동기 main 함수를 실행
-    """
-    print("프로그램 시작")
-    asyncio.run(main())
-    print("프로그램 종료")
-
-```
-
-#### 고급 RAG 예제(다중 에이전트 RAG 시스템)
-
-- 협력적 문제 해결: 여러 전문 에이전트가 역할을 분담하여 답변 생성
-- 순차적 대화 흐름: User → Research_Specialist → Explanation_Expert 순서로 진행
-- 전문성 분리: 기술 연구와 쉬운 설명을 각각 다른 에이전트가 담당
-- 그룹 채팅 관리: CustomGroupChat으로 에이전트 간 대화 순서 제어
-
-##### 구성도
-
-```mermaid
-flowchart TD
-    A[고급 RAG 시스템 시작] --> B[Azure OpenAI 설정]
-    B --> C[DocumentRetriever 초기화]
-    C --> D[전문 문서 데이터베이스 구축]
-    D --> E[전문 에이전트 생성]
-    
-    E --> F[Research_Specialist<br/>RAG 에이전트]
-    E --> G[Explanation_Expert<br/>설명 전문가]
-    E --> H[User Proxy<br/>사용자 대리]
-    
-    F --> I[GroupChat 생성]
-    G --> I
-    H --> I
-    
-    I --> J[GroupChatManager 생성]
-    J --> K[복합 질문 입력]
-    K --> L{GroupChat<br/>발화자 선택}
-    
-    L -->|첫 번째| M[User: 질문 전달]
-    M --> N[Research_Specialist 선택]
-    N --> O[문서 검색 및 기술 분석]
-    O --> P[Explanation_Expert 선택]
-    P --> Q[쉬운 설명 생성]
-    Q --> R[대화 완료]
-    
-    subgraph RAG_Process [RAG 검색 과정]
-        O1[쿼리 임베딩] --> O2[벡터 유사도 검색]
-        O2 --> O3[관련 문서 추출]
-        O3 --> O4[컨텍스트 구성]
-        O4 --> O5[LLM 응답 생성]
-    end
-    
-    O --> RAG_Process
-    RAG_Process --> P
-```
-
-
-
-##### 샘플 코드
-
-```python
-import os
-import asyncio
-from typing import List, Dict, Any
-import chromadb
-from chromadb.utils import embedding_functions
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
-import openai
-from sentence_transformers import SentenceTransformer
-
-class DocumentRetriever:
-    """문서 검색을 위한 ChromaDB 기반 벡터 스토어"""
-    
-    def __init__(self, collection_name: str = "documents"):
-        """
-        DocumentRetriever 초기화
-        Args:
-            collection_name: ChromaDB 컬렉션 이름
-        """
-        print(f"[DocumentRetriever] 초기화 시작 - 컬렉션명: {collection_name}")
-        
-        # ChromaDB 클라이언트 생성
-        self.client = chromadb.Client()
-        print("[DocumentRetriever] ChromaDB 클라이언트 생성 완료")
-        
-        # SentenceTransformer를 사용한 임베딩 함수 설정
-        # all-MiniLM-L6-v2는 384차원의 벡터를 생성하는 경량화된 모델
-        self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
-        )
-        print("[DocumentRetriever] SentenceTransformer 임베딩 함수 설정 완료")
-        
-        # 기존 컬렉션이 있으면 가져오고, 없으면 새로 생성
-        try:
-            # 기존 컬렉션 조회 시도
-            self.collection = self.client.get_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
-            print(f"[DocumentRetriever] 기존 컬렉션 '{collection_name}' 로드 완료")
-        except:
-            # 컬렉션이 없으면 새로 생성
-            self.collection = self.client.create_collection(
-                name=collection_name,
-                embedding_function=self.embedding_function
-            )
-            print(f"[DocumentRetriever] 새 컬렉션 '{collection_name}' 생성 완료")
-    
-    def add_documents(self, documents: List[str], metadatas: List[Dict] = None):
-        """
-        문서를 벡터 스토어에 추가
-        Args:
-            documents: 추가할 문서 리스트
-            metadatas: 각 문서의 메타데이터 리스트 (선택사항)
-        """
-        print(f"[DocumentRetriever] 문서 추가 시작 - 총 {len(documents)}개 문서")
-        
-        # 각 문서에 고유 ID 생성
-        ids = [f"doc_{i}" for i in range(len(documents))]
-        print(f"[DocumentRetriever] 문서 ID 생성 완료: {ids}")
-        
-        # 메타데이터가 제공되지 않으면 기본 메타데이터 생성
-        if metadatas is None:
-            metadatas = [{"source": f"document_{i}"} for i in range(len(documents))]
-            print("[DocumentRetriever] 기본 메타데이터 생성 완료")
-        
-        # ChromaDB 컬렉션에 문서, 메타데이터, ID 추가
-        # 이 과정에서 문서들이 자동으로 임베딩되어 벡터로 변환됨
-        self.collection.add(
-            documents=documents,  # 원본 텍스트
-            metadatas=metadatas,  # 문서 메타정보
-            ids=ids              # 고유 식별자
-        )
-        print(f"[DocumentRetriever] ChromaDB에 {len(documents)}개 문서 추가 완료")
-        print(f"[DocumentRetriever] 각 문서는 384차원 벡터로 임베딩되어 저장됨")
-    
-    def search(self, query: str, n_results: int = 3) -> List[str]:
-        """
-        쿼리와 관련된 문서 검색 (의미적 유사도 기반)
-        Args:
-            query: 검색할 쿼리 텍스트
-            n_results: 반환할 문서 수
-        Returns:
-            관련성이 높은 문서들의 리스트
-        """
-        print(f"[DocumentRetriever] 문서 검색 시작")
-        print(f"[DocumentRetriever] 검색 쿼리: '{query[:100]}...'")
-        print(f"[DocumentRetriever] 요청 결과 수: {n_results}")
-        
-        # 쿼리 텍스트를 임베딩으로 변환하고 벡터 데이터베이스에서 유사한 문서 검색
-        # 코사인 유사도를 기반으로 가장 관련성 높은 문서들을 반환
-        results = self.collection.query(
-            query_texts=[query],    # 검색할 쿼리 (임베딩으로 자동 변환됨)
-            n_results=n_results     # 반환할 결과 수
-        )
-        
-        # 검색 결과에서 문서 텍스트 추출
-        found_documents = results['documents'][0] if results['documents'] else []
-        
-        print(f"[DocumentRetriever] 검색 완료 - {len(found_documents)}개 문서 발견")
-        for i, doc in enumerate(found_documents):
-            print(f"[DocumentRetriever] 검색된 문서 {i+1}: '{doc[:50]}...'")
-        
-        return found_documents
-
-class RAGAgent(AssistantAgent):
-    """RAG(Retrieval-Augmented Generation) 기능이 통합된 AG2 에이전트"""
-    
-    def __init__(self, name: str, retriever: DocumentRetriever, **kwargs):
-        """
-        RAGAgent 초기화
-        Args:
-            name: 에이전트 이름
-            retriever: 문서 검색기 인스턴스
-            **kwargs: AssistantAgent의 추가 인자들
-        """
-        print(f"[RAGAgent-{name}] 초기화 시작")
-        super().__init__(name, **kwargs)
-        self.retriever = retriever
-        print(f"[RAGAgent-{name}] 초기화 완료 - 문서 검색기 연결됨")
-    
-    def retrieve_documents(self, query: str) -> List[Dict[str, Any]]:
-        """
-        문서 검색 메서드 - 검색된 문서를 딕셔너리 형태로 반환
-        Args:
-            query: 검색할 쿼리
-        Returns:
-            검색된 문서들의 딕셔너리 리스트
-        """
-        print(f"[RAGAgent-{self.name}] retrieve_documents 메서드 호출")
-        print(f"[RAGAgent-{self.name}] 검색 쿼리: '{query[:50]}...'")
-        
-        # DocumentRetriever를 사용하여 관련 문서 검색
-        documents = self.retriever.search(query, n_results=3)
-        
-        # 검색된 문서들을 딕셔너리 형태로 변환
-        structured_docs = [{"content": doc} for doc in documents]
-        
-        print(f"[RAGAgent-{self.name}] 구조화된 문서 {len(structured_docs)}개 반환")
-        return structured_docs
-    
-    async def a_generate_reply(self, messages=None, sender=None, **kwargs):
-        """
-        비동기 응답 생성 메서드 - RAG 기능이 통합된 응답 생성
-        Args:
-            messages: 대화 메시지 리스트
-            sender: 메시지 발신자
-            **kwargs: 추가 인자들
-        Returns:
-            생성된 응답
-        """
-        print(f"\n[RAGAgent-{self.name}] ===== 응답 생성 시작 =====")
-        print(f"[RAGAgent-{self.name}] 발신자: {sender.name if sender else 'None'}")
-        
-        # 다양한 소스에서 메시지 히스토리 가져오기
-        if messages is None and hasattr(sender, 'groupchat'):
-            # GroupChatManager에서 호출되는 경우 - 그룹 채팅의 전체 메시지 히스토리 사용
-            messages = sender.groupchat.messages if sender.groupchat.messages else []
-            print(f"[RAGAgent-{self.name}] 그룹 채팅에서 메시지 가져옴: {len(messages)}개")
-        elif messages is None and sender is not None:
-            # 일반적인 1:1 대화 경우
-            if hasattr(self, 'chat_messages') and sender in self.chat_messages:
-                messages = self.chat_messages[sender]
-                print(f"[RAGAgent-{self.name}] 개별 채팅에서 메시지 가져옴: {len(messages)}개")
-            else:
-                messages = []
-                print(f"[RAGAgent-{self.name}] 메시지 히스토리 없음")
-        
-        # 메시지가 여전히 없는 경우 기본 처리로 넘어감
-        if not messages:
-            print(f"[RAGAgent-{self.name}] 메시지 없음 - 기본 응답 생성으로 진행")
-            return await super().a_generate_reply(messages=messages, sender=sender, **kwargs)
-        
-        # 마지막 메시지에서 검색할 텍스트 추출
-        last_message = ""
-        if messages:
-            if isinstance(messages[-1], dict):
-                last_message = messages[-1].get('content', '')
-                print(f"[RAGAgent-{self.name}] 마지막 메시지(딕셔너리): '{last_message[:50]}...'")
-            else:
-                last_message = str(messages[-1])
-                print(f"[RAGAgent-{self.name}] 마지막 메시지(문자열): '{last_message[:50]}...'")
-        
-        print(f"[RAGAgent-{self.name}] 문서 검색 시작 - 쿼리: '{last_message[:50]}...'")
-        
-        # 마지막 메시지를 기반으로 관련 문서 검색
-        retrieved_docs = self.retrieve_documents(last_message)
-        
-        if retrieved_docs:
-            print(f"[RAGAgent-{self.name}] 문서 검색 성공 - {len(retrieved_docs)}개 문서 발견")
-            
-            # 검색된 문서들을 컨텍스트로 구성
-            context = "\n\n=== 검색된 관련 문서 ===\n"
-            for i, doc in enumerate(retrieved_docs, 1):
-                context += f"문서 {i}: {doc['content']}\n"
-                print(f"[RAGAgent-{self.name}] 문서 {i} 길이: {len(doc['content'])} 글자")
-            context += "=== 검색 문서 끝 ===\n\n"
-            
-            print(f"[RAGAgent-{self.name}] 컨텍스트 구성 완료 - 총 길이: {len(context)} 글자")
-            
-            # 기존 메시지에 검색된 문서 컨텍스트 추가
-            modified_messages = messages.copy()
-            if modified_messages and isinstance(modified_messages[-1], dict):
-                # 딕셔너리 형태의 메시지인 경우
-                original_content = modified_messages[-1].get('content', '')
-                modified_messages[-1] = {
-                    **modified_messages[-1],
-                    'content': original_content + context
-                }
-                print(f"[RAGAgent-{self.name}] 딕셔너리 메시지에 컨텍스트 추가")
-            elif modified_messages:
-                # 문자열 형태의 메시지인 경우
-                modified_messages[-1] = str(modified_messages[-1]) + context
-                print(f"[RAGAgent-{self.name}] 문자열 메시지에 컨텍스트 추가")
-            
-            # LLM에 전달할 최종 메시지 리스트 구성
-            enhanced_messages = []
-            
-            # 시스템 메시지에 검색된 문서 컨텍스트 통합
-            enhanced_system_content = f"{self.system_message}\n\n다음 문서들을 참고하여 답변해주세요:\n{context}"
-            enhanced_messages.append({
-                'role': 'system',
-                'content': enhanced_system_content
-            })
-            print(f"[RAGAgent-{self.name}] 강화된 시스템 메시지 생성 - 길이: {len(enhanced_system_content)} 글자")
-            
-            # 기존 대화 메시지들 추가 (시스템 메시지 제외)
-            for i, msg in enumerate(modified_messages):
-                if isinstance(msg, dict) and msg.get('role') != 'system':
-                    enhanced_messages.append(msg)
-                    print(f"[RAGAgent-{self.name}] 딕셔너리 메시지 {i+1} 추가: {msg.get('role', 'unknown')}")
-                elif not isinstance(msg, dict):
-                    # 문자열 메시지를 user 역할로 변환
-                    enhanced_messages.append({
-                        'role': 'user',
-                        'content': str(msg)
-                    })
-                    print(f"[RAGAgent-{self.name}] 문자열 메시지 {i+1}를 user 역할로 변환 추가")
-            
-            print(f"[RAGAgent-{self.name}] 최종 메시지 구성 완료 - 총 {len(enhanced_messages)}개 메시지")
-            print(f"[RAGAgent-{self.name}] LLM 호출 시작 (컨텍스트 포함)")
-            
-            # 검색된 문서가 포함된 메시지로 상위 클래스의 응답 생성 메서드 호출
-            response = await super().a_generate_reply(messages=enhanced_messages, sender=sender, **kwargs)
-            
-            print(f"[RAGAgent-{self.name}] LLM 응답 생성 완료")
-            print(f"[RAGAgent-{self.name}] ===== 응답 생성 완료 =====\n")
-            return response
-        else:
-            print(f"[RAGAgent-{self.name}] 관련 문서를 찾을 수 없음 - 기본 응답 생성")
-            print(f"[RAGAgent-{self.name}] ===== 응답 생성 완료 (문서 없음) =====\n")
-            
-            # 검색된 문서가 없으면 기본 응답 생성
-            return await super().a_generate_reply(messages=messages, sender=sender, **kwargs)
-
-def setup_azure_openai():
-    """
-    Azure OpenAI 설정 구성
-    Returns:
-        Azure OpenAI 설정 딕셔너리
-    """
-    print("[Setup] Azure OpenAI 설정 구성 시작")
-    config = {
-        "model": "deploy-gpt-4o-240806-01",  # 배포된 모델 이름
-        "api_type": "azure",                 # Azure OpenAI 사용
-        "base_url": "https://edutech-eastus.openai.azure.com/",  # Azure 엔드포인트
-        "api_version": "2023-12-01-preview", # API 버전
-        "api_key": "a634b87afef5450e8b3a6e729a809c5f"  # API 키
-    }
-    print("[Setup] Azure OpenAI 설정 구성 완료")
-    return config
-
-# 그룹 채팅을 활용한 고급 RAG 시스템
-async def main():
-    """
-    여러 에이전트가 협력하는 고급 RAG 시스템 메인 함수
-    - DocumentRetriever: 문서 검색 담당
-    - Research_Specialist: RAG 기반 기술 연구 담당
-    - Explanation_Expert: 기술 내용을 쉽게 설명 담당
-    """
-    print("\n" + "="*80)
-    print("고급 RAG 시스템 시작")
-    print("="*80)
-    
-    # 1. Azure OpenAI 설정
-    print("\n[Main] 1단계: Azure OpenAI 설정")
-    llm_config = setup_azure_openai()
-    
-    # 2. 문서 검색기 초기화
-    print("\n[Main] 2단계: 문서 검색기 초기화")
-    retriever = DocumentRetriever(collection_name="advanced_docs")
-    
-    # 3. 전문 문서들을 벡터 데이터베이스에 추가
-    print("\n[Main] 3단계: 전문 문서 데이터베이스 구축")
-    advanced_documents = [
-        """벡터 데이터베이스는 고차원 벡터를 효율적으로 저장하고 검색하는 데이터베이스입니다. 
-        ChromaDB, Pinecone, Weaviate 등이 있으며, 의미적 검색에 특화되어 있습니다. 
-        벡터 데이터베이스는 임베딩된 문서들을 저장하고, 사용자 쿼리와 유사한 벡터를 빠르게 찾아 관련 문서를 반환합니다.
-        KTDS Dev.AI는 Agentic AI를 위한 다양한 지식 데이터베이스를 제공하고 벡터 데이터베이스를 손쉽게 사용할 수 있는 환경을 제공합니다.""",
-        
-        """임베딩은 텍스트, 이미지 등의 데이터를 고차원 벡터 공간으로 변환하는 기술입니다. 
-        OpenAI의 text-embedding-ada-002, Sentence Transformers 등이 널리 사용됩니다. 
-        임베딩은 의미적으로 유사한 텍스트들이 벡터 공간에서 가까운 위치에 배치되도록 하여 의미적 검색을 가능하게 합니다.
-        KTDS Dev.AI는 다양한 임베딩 모델을 손쉽게 사용할 수 있는 환경을 제공합니다.
-        """,
-        
-        """RAG 시스템에서 벡터 데이터베이스와 임베딩은 핵심적인 역할을 합니다. 
-        문서들을 임베딩으로 변환하여 벡터 데이터베이스에 저장하고, 사용자 질의도 같은 방식으로 임베딩하여 유사도 검색을 통해 관련 문서를 찾습니다.
-        이렇게 검색된 문서들이 LLM에 컨텍스트로 제공되어 더 정확한 답변 생성이 가능합니다.
-        Dev.AI는 다양한 지식 데이터베이스를 RAG 시스템과 통합할 수 있는 다양한 도구를 제공합니다.
-        """,
-        
-        """프롬프트 엔지니어링은 AI 모델에서 원하는 결과를 얻기 위해 입력 프롬프트를 최적화하는 기법입니다. 
-        Few-shot learning, Chain-of-Thought 등의 기법이 있습니다.
-        Dev.AI는 프롬프트 최적화 도구를 제공하여 AI 모델에서 원하는 결과를 가져오기 위한 자동화된 프롬프트 가공 기술을 제공합니다.
-        """,
-    ]
-    
-    # 문서들을 벡터 데이터베이스에 저장 (자동 임베딩 수행)
-    retriever.add_documents(advanced_documents)
-    print(f"[Main] 총 {len(advanced_documents)}개 문서가 벡터 데이터베이스에 저장됨")
-    
-    # 4. 전문 에이전트들 생성
-    print("\n[Main] 4단계: 전문 에이전트 생성")
-    
-    # RAG 기능이 통합된 연구 전문가 에이전트
-    research_agent = RAGAgent(
-        name="Research_Specialist",
-        retriever=retriever,
-        system_message="""당신은 기술 연구 전문가입니다. 
-        제공된 문서를 철저히 분석하여 정확한 기술적 정보를 제공합니다.
-        항상 검색된 문서를 기반으로 답변하며, 기술적 세부사항과 정확한 정의에 중점을 둡니다.
-        검색된 문서의 내용을 바탕으로 체계적이고 구체적인 정보를 제공하세요.""",
-        llm_config=llm_config
-    )
-    print("[Main] Research_Specialist 에이전트 생성 완료 (RAG 기능 포함)")
-    
-    # 기술 설명 전문가 에이전트 (일반 AssistantAgent)
-    explanation_agent = AssistantAgent(
-        name="Explanation_Expert",
-        system_message="""당신은 복잡한 기술을 쉽게 설명하는 전문가입니다. 
-        Research_Specialist가 제공한 기술적 정보를 받아 일반인도 이해할 수 있도록 쉽고 명확하게 설명합니다. 
-        비유와 예시를 활용하여 설명하세요.
-        전문 용어를 풀어서 설명하고, 실생활 예시를 들어 이해를 도와주세요.
-        KTDS Dev.AI 솔루션을 꼭 언급해주세요.""",
-        llm_config=llm_config
-    )
-    print("[Main] Explanation_Expert 에이전트 생성 완료")
-    
-    # 사용자 대리 에이전트
-    user_proxy = UserProxyAgent(
-        name="User",
-        human_input_mode="NEVER",          # 자동 실행 (사용자 입력 대기 안함)
-        max_consecutive_auto_reply=1,      # 최대 1회 자동 응답
-        code_execution_config=False,       # 코드 실행 비활성화
-        system_message="""
-        당신은 사용자의 대리인입니다. 사용자의 질문을 Research_Specialist에게 전달하고,
-        Research_Specialist의 결과를 Explanation_Expert에 전달합니다.
-        Explanation_Expert 답변을 사용자에게 전달합니다.
-        """
-    )
-    print("[Main] User 에이전트 생성 완료")
-    
-    # 5. 그룹 채팅 설정
-    print("\n[Main] 5단계: 그룹 채팅 설정")
-    groupchat = GroupChat(
-        agents=[user_proxy, research_agent, explanation_agent],  # 참여 에이전트들
-        messages=[],                                            # 빈 메시지 히스토리로 시작
-        max_round=6,                                           # 최대 6라운드 대화
-        speaker_selection_method="auto"                        # 자동 발화자 선택
-    )
-    print("[Main] CustomGroupChat 생성 완료")
-    
-    # 그룹 채팅 매니저 생성
-    manager = GroupChatManager(
-        groupchat=groupchat,
-        llm_config=llm_config,
-        system_message="대화를 관리하고 적절한 에이전트가 순서대로 응답하도록 조정합니다."
-    )
-    print("[Main] GroupChatManager 생성 완료")
-    
-    # 6. 복합 질문으로 RAG 시스템 테스트
-    print("\n[Main] 6단계: RAG 시스템 테스트 시작")
-    print("="*80)
-    
-    complex_question = "벡터 데이터베이스와 임베딩의 관계를 설명하고, RAG 시스템에서 이들이 어떻게 활용되는지 알려주세요."
-    print(f"[Main] 테스트 질문: {complex_question}")
-    
-    print("\n[Main] 그룹 채팅 시작...")
-    print("="*80)
-    
-    # 사용자 프록시가 그룹 채팅 매니저와 대화 시작
-    # 예상 흐름: User -> Research_Specialist (RAG 검색 + 기술 분석) -> Explanation_Expert (쉬운 설명)
-    await user_proxy.a_initiate_chat(
-        manager,
-        message=complex_question
-    )
-    
-    print("\n" + "="*80)
-    print("고급 RAG 시스템 완료")
-    print("="*80)
-
-if __name__ == "__main__":
-    """
-    프로그램 진입점
-    전체 시스템 흐름:
-    1. Azure OpenAI 설정
-    2. ChromaDB 기반 벡터 데이터베이스 구축
-    3. 전문 문서들을 임베딩하여 저장
-    4. RAG 에이전트와 설명 에이전트 생성
-    5. 그룹 채팅으로 협력적 답변 생성
-    """
-    print("RAG_EXAMPLE.PY 실행 시작")
-    
-    # 고급 RAG 시스템 비동기 실행
-    print("\n" + "="*60)
-    asyncio.run(main())
-    
-    print("\nRAG_EXAMPLE.PY 실행 완료")
-
-```
-
-
-
-## 6. MCP 개요
+## 5. MCP 개요
 
 Model Context Protocol(MCP)는 LLM 애플리케이션과 외부 데이터 소스 및 도구 간의 원활한 연동을 가능하게 해주는 오픈 프로토콜이다. 
 AI 기반 IDE를 만들거나, 채팅 인터페이스를 개선하거나, 맞춤형 AI 워크플로우를 구축하든 MCP는 LLM이 필요한 컨텍스트에 표준화된 방식으로 접근할 수 있는 환경을 제공한다.
@@ -4796,7 +3156,7 @@ LLM이 내가 사용하는 어플리케이션을 하나의 도구로 활용할 �
 - LLM 제공업체 간 유연한 전환 가능
 - 자체 인프라 내에서 데이터를 안전하게 보호할 수 있는 베스트 프랙티스 제공
 
-### 6.1 주요 구성 요소
+### 5.1 주요 구성 요소
 
 - MCP(Model Context Protocol)는 AI가 외부 데이터와 도구에 쉽게 접근할 수 있도록 표준화된 연결 방식을 제공하는 구조이다.
 
@@ -4812,7 +3172,7 @@ LLM이 내가 사용하는 어플리케이션을 하나의 도구로 활용할 �
 
 
 
-### 6.2 MCP 작동 방식
+### 5.2 MCP 작동 방식
 
 **연결 설정 (connection establishment)**
 
@@ -4849,7 +3209,7 @@ LLM이 내가 사용하는 어플리케이션을 하나의 도구로 활용할 �
 
 
 
-### 6.3 연동 방식
+### 5.3 연동 방식
 
 | 구분               | stdio (Standard IO)                                          | SSE (Server-Sent Events)                                     | Streamable-HTTP                                              |
 | :----------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
@@ -4865,7 +3225,7 @@ LLM이 내가 사용하는 어플리케이션을 하나의 도구로 활용할 �
 
 
 
-### 6.4 도구 및 리소스
+### 5.4 도구 및 리소스
 
 #### 도구 (Tools)
 
@@ -4968,7 +3328,7 @@ graph TB
 
 
 
-### 6.5 MCP 서버 개발
+### 5.5 MCP 서버 개발
 
 #### MCP 생태계
 
@@ -5018,7 +3378,7 @@ graph TB
 
 
 
-### 6.6 FastMCP
+### 5.6 FastMCP
 
  FastMCP는 MCP 서버와 클라이언트를 간단하게 생성할 수 있도록 설계된 고수준의 Pythonic 프레임워크이다.
 
@@ -5149,7 +3509,7 @@ def image_processor(
 
 
 
-### 7.7 MCP 예제
+### 5.7 MCP 예제
 
 #### MCP 서버 
 
@@ -5182,7 +3542,7 @@ pip install "autogen-ext[openai,mcp]>=0.4.2"
 덧셈 계산기와 인사하는 MCP 서버 생성.
 
 ```
-#mcp_server.py
+#mcp_server_sample.py
 from mcp.server.fastmcp import FastMCP
 
 # Create an MCP server
@@ -5301,7 +3661,7 @@ if __name__ == "__main__":
 ##### MCP 클라이언트
 
 ```python
-# mcp_client.py
+# mcp_client_stdio.py
 import asyncio
 import os
 from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
@@ -5327,7 +3687,7 @@ async def setup_mcp_tools():
     """MCP 서버에서 도구들을 설정"""
     server_params = StdioServerParams(
         command="python",
-        args=["/home/kirobo/aiagent-sample/mcp_server4.py"],
+        args=["D:\\Dev\\01.Lectures\\AI_BASIC_LECTURE_KWS\\autogen\\mcp_server.py"],
         )
     
     tools = await mcp_server_tools(server_params)
@@ -5335,14 +3695,11 @@ async def setup_mcp_tools():
 
 async def setup_azure_client():
     """Azure OpenAI 클라이언트 설정"""
-    try:
-         
-        model_client = AzureOpenAIChatCompletionClient(
+    try:         
+        model_client = OpenAIChatCompletionClient(
             model="gpt-4o",
-            azure_endpoint= "https://edutech-eastus.openai.azure.com/",
-            api_version= "2023-12-01-preview",
-            api_key= "",
-            azure_deployment="deploy-gpt-4o-240806-01"
+            api_key= "", # 실제 키 사용 시 주의
+            base_url="https://api.openai.com/v1"
             )
         
         print("✅ Azure OpenAI 클라이언트 설정 완료 (표준 모델명)")
@@ -5565,12 +3922,10 @@ async def setup_azure_client():
     """Azure OpenAI 클라이언트 설정"""
     try:
          
-        model_client = AzureOpenAIChatCompletionClient(
+        model_client = OpenAIChatCompletionClient(
             model="gpt-4o",
-            azure_endpoint= "https://edutech-eastus.openai.azure.com/",
-            api_version= "2023-12-01-preview",
-            api_key= "",
-            azure_deployment="deploy-gpt-4o-240806-01"
+            api_key= "", # 실제 키 사용 시 주의
+            base_url="https://api.openai.com/v1"
             )
         
         print("✅ Azure OpenAI 클라이언트 설정 완료 (표준 모델명)")
@@ -5674,7 +4029,7 @@ flowchart TD
 
 #### PowerShell 관리자 권한으로 실행
 ```powershell
-# WSL 기능 활성화
+# WSL (Windows Subsystem for Linux) 기능 활성화
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 
 # 가상 머신 플랫폼 기능 활성화

@@ -1,0 +1,5 @@
+autogen/.idea/
+autogen/.venv/
+__pycache__
+autogen/.cache/
+autogen/.vscode/

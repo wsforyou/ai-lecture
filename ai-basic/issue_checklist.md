@@ -14,6 +14,7 @@
    ```
 3. 가상환경 활성화 재시도
 
+python -m venv .venv
 ---
 
 ### 2. requirements.txt 한글 유니코드 에러 (cp949 인코딩 문제)
@@ -28,9 +29,14 @@
 
 **추가 해결방법**:
 ```bash
-# 파일 인코딩을 UTF-8로 변환
-pip install -r requirements.txt --encoding utf-8
+# 환경변수 셋팅
+$env:PYTHONUTF8="1"
+[System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+pip install -r requirements.txt 
 ```
+
+
 
 ---
 

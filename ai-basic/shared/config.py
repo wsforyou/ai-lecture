@@ -35,19 +35,19 @@ LOG_LEVEL = "INFO"
 def validate_api_keys():
     """API 키 유효성 검사"""
     missing_keys = []
-    
+
     if not OPENAI_API_KEY:
         missing_keys.append("OPENAI_API_KEY")
-    
+
     if missing_keys:
         print(f"누락된 API 키: {', '.join(missing_keys)}")
         print(".env 파일에 다음 키들을 추가해주세요:")
         for key in missing_keys:
             print(f"   {key}=your_key_here")
         return False
-    
+
     print("모든 API 키가 설정되었습니다!")
     return True
 
 if __name__ == "__main__":
-    validate_api_keys() 
+    validate_api_keys()

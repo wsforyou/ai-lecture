@@ -72,48 +72,48 @@ ipykernel>=6.15.0
 # ============================================
 # Lab별 필수 패키지 요약
 # ============================================
-# 
+#
 # Lab 1 (임베딩 기초):
 #   openai, numpy, scikit-learn, matplotlib, seaborn, pandas, python-dotenv, tiktoken
-# 
+#
 # Lab 2 (벡터 데이터베이스):
 #   chromadb + Lab 1 패키지
-# 
+#
 # Lab 3 (RAG 시스템):
 #   streamlit, langchain, langchain-openai, langchain-community, rank_bm25, plotly + Lab 2 패키지
-# 
+#
 # Lab 4 (지능형 챗봇):
 #   fastapi, uvicorn, httpx, websockets, aiohttp, pydantic, typing-extensions, pytest, pytest-asyncio + Lab 3 패키지
-# 
+#
 # Lab 5-9 (예정):
 #   langchain 기반 에이전트 시스템 + 기존 패키지
-# 
+#
 # ============================================
 # 전체 설치 방법
 # ============================================
-# 
+#
 # 모든 패키지 한 번에 설치:
 #   pip install -r requirements.txt
-# 
+#
 # 가상환경 사용 권장:
 #   conda create -n ai-basic python=3.10
 #   conda activate ai-basic
 #   pip install -r requirements.txt
-# 
+#
 # ============================================
 # Lab 4 Mock API 서버 실행 방법
 # ============================================
-# 
+#
 # 방법 1: 자동 실행 스크립트 사용 (권장)
 #   cd lab04-intelligent-chatbot
 #   python start_apis.py
-# 
+#
 # 방법 2: 개별 실행 (각각 별도 터미널)
 #   cd lab04-intelligent-chatbot
 #   python mock_apis/weather_api.py      # http://localhost:8001
 #   python mock_apis/calendar_api.py     # http://localhost:8002
 #   python mock_apis/file_manager_api.py # http://localhost:8003
 #   python mock_apis/notification_api.py # http://localhost:8004
-# 
+#
 # 웹 인터페이스 실행:
-#   python -m streamlit run web_interface/chatbot_ui.py 
+#   python -m streamlit run web_interface/chatbot_ui.py
