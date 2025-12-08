@@ -28,7 +28,14 @@ python -m venv .venv
 4. 다시 pip install 실행
 
 **추가 해결방법**:
+
 ```bash
+#가상환경 생성
+python -v venv .venv
+
+#가상환경 실행
+.\venv\Scripts\Activate.ps1
+
 # 환경변수 셋팅
 $env:PYTHONUTF8="1"
 [System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8

@@ -276,14 +276,14 @@ user_proxy = UserProxyAgent(
         "last_n_messages": 5,  # 더 많은 메시지 저장
     },
     # 커스텀 종료 조건
-    is_termination_msg=lambda msg: "작업 완료" in msg.get("content", "") or 
+    is_termination_msg=lambda msg: "작업 완료" in msg.get("content", "") or
                                    "TERMINATE" in msg.get("content", "")
 )
 
 #Autogen Agent는 Markdown 코드펜스 문법을 인식하여 정의된 언어 기반으로 실행한다.
 #기본은 Python 이며 Linux 환경일 경우 bash, Windows 환경일 경우 shell, 나머지 언어는 별도 커스텀 Executor가 필요하다.
 messages = [{"role": "user", "content": "```shell\nls\n```"}]
-
+print("messages", messages)
 
 #실행 및 결과 확인
 response = user_proxy.generate_reply(messages)
@@ -793,7 +793,7 @@ assistant = autogen.AssistantAgent(
         - 호출 결과를 바탕으로 사용자 및 다른 에이전트에게 유용한 정보를 제공합니다.
     """,
     llm_config=llm_config,
-    max_consecutive_auto_reply=1,  # 최대 3번까지 연속 응답
+    max_consecutive_auto_reply=1,  # 최대 1번까지 연속 응답
 )
 
 # UserProxyAgent 생성
@@ -984,6 +984,7 @@ if __name__ == "__main__":
 
 
 ```python
+# aionu_llm_client.py
 import json
 import requests
 import time

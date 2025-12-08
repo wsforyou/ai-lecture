@@ -1,0 +1,523 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGen 간단 채팅봇</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .chat-header .subtitle {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .reset-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message-content {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 0.7em;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .status-info {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.1);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            opacity: 0.7;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 95%;
+                height: 90vh;
+                border-radius: 10px;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .reset-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 AutoGen 채팅봇</h1>
+            <div class="subtitle">FastAPI + AutoGen 기반 AI 어시스턴트</div>
+            <button class="reset-btn" onclick="resetConversation()">대화 초기화</button>
+            <div class="status-info" id="statusInfo">준비됨</div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    안녕하세요! 👋<br>
+                    저는 AutoGen과 FastAPI로 만들어진 AI 어시스턴트입니다.<br>
+                    궁금한 것이 있으시면 언제든 질문해주세요!
+                </div>
+                <div class="message-time">방금 전</div>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="messageInput"
+                    class="message-input"
+                    placeholder="메시지를 입력하세요..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    전송
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수
+        let isLoading = false;
+
+        // DOM 요소
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const statusInfo = document.getElementById('statusInfo');
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            messageInput.focus();
+            checkServerHealth();
+        });
+
+		// 서버 상태 확인
+        async function checkServerHealth() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+
+                if (data.status === 'healthy') {
+                    statusInfo.textContent = '온라인';
+                    statusInfo.style.background = 'rgba(40, 167, 69, 0.8)';
+                } else {
+                    statusInfo.textContent = '오프라인';
+                    statusInfo.style.background = 'rgba(220, 53, 69, 0.8)';
+                }
+            } catch (error) {
+                console.error('서버 상태 확인 실패:', error);
+                statusInfo.textContent = '연결 실패';
+                statusInfo.style.background = 'rgba(220, 53, 69, 0.8)';
+            }
+        }
+
+        // Enter 키 처리
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // 메시지 전송
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+
+            if (!message || isLoading) {
+                return;
+            }
+
+            // UI 업데이트
+            addMessage('user', message);
+            messageInput.value = '';
+            setLoading(true);
+
+            try {
+                // API 호출
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        reset_conversation: false
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    addMessage('bot', data.response, data.processing_time);
+
+                    // 상태 정보 업데이트
+                    if (data.agent_info && data.agent_info.total_messages) {
+                        statusInfo.textContent = `메시지 ${data.agent_info.total_messages}개`;
+                    }
+                } else {
+                    addMessage('bot', `오류: ${data.response}`, null, true);
+                }
+            } catch (error) {
+                console.error('메시지 전송 실패:', error);
+                addMessage('bot', '서버와의 통신에 실패했습니다. 잠시 후 다시 시도해주세요.', null, true);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // 메시지 추가
+        function addMessage(sender, content, processingTime = null, isError = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+
+            if (isError) {
+                contentDiv.style.background = '#ffe6e6';
+                contentDiv.style.color = '#d32f2f';
+                contentDiv.style.borderColor = '#ffcdd2';
+            }
+
+            // 메시지 내용 처리 (줄바꿈 지원)
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+
+            let timeText = new Date().toLocaleTimeString('ko-KR', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            if (processingTime) {
+                timeText += ` (처리시간: ${processingTime}초)`;
+            }
+
+            timeDiv.textContent = timeText;
+
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(timeDiv);
+            chatMessages.appendChild(messageDiv);
+
+            // 스크롤을 맨 아래로
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 로딩 상태 설정
+        function setLoading(loading) {
+            isLoading = loading;
+            sendBtn.disabled = loading;
+            messageInput.disabled = loading;
+
+            if (loading) {
+                sendBtn.textContent = '전송 중...';
+
+                // 로딩 메시지 추가
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'loading';
+                loadingDiv.id = 'loadingMessage';
+                loadingDiv.textContent = 'AI가 답변을 생성하고 있습니다';
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                sendBtn.textContent = '전송';
+                messageInput.focus();
+
+                // 로딩 메시지 제거
+                const loadingMessage = document.getElementById('loadingMessage');
+                if (loadingMessage) {
+                    loadingMessage.remove();
+                }
+            }
+        }
+
+        // 대화 초기화
+        async function resetConversation() {
+            if (!confirm('대화 기록을 모두 삭제하시겠습니까?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // 채팅 메시지 초기화
+                    chatMessages.innerHTML = `
+                        <div class="message bot">
+                            <div class="message-content">
+                                대화 기록이 초기화되었습니다. 🔄<br>
+                                새로운 대화를 시작해보세요!
+                            </div>
+                            <div class="message-time">방금 전</div>
+                        </div>
+                    `;
+
+                    // 상태 정보 리셋
+                    statusInfo.textContent = '온라인';
+
+                    // 포커스 설정
+                    messageInput.focus();
+
+                    console.log('대화 기록 초기화 완료');
+                } else {
+                    alert('대화 기록 초기화에 실패했습니다: ' + data.message);
+                }
+            } catch (error) {
+                console.error('대화 초기화 실패:', error);
+                alert('서버와의 통신에 실패했습니다.');
+            }
+        }
+
+        // Agent 정보 조회 (선택사항)
+        async function getAgentInfo() {
+            try {
+                const response = await fetch('/info');
+                const data = await response.json();
+
+                if (data.success) {
+                    console.log('Agent 정보:', data.data);
+                    return data.data;
+                }
+            } catch (error) {
+                console.error('Agent 정보 조회 실패:', error);
+            }
+            return null;
+        }
+
+        // 키보드 단축키 지원
+        document.addEventListener('keydown', function(event) {
+            // Ctrl + R: 대화 초기화
+            if (event.ctrlKey && event.key === 'r') {
+                event.preventDefault();
+                resetConversation();
+            }
+
+            // Escape: 입력 필드 포커스
+            if (event.key === 'Escape') {
+                messageInput.focus();
+                messageInput.select();
+            }
+        });
+
+        // 주기적 상태 확인 (30초마다)
+        setInterval(checkServerHealth, 30000);
+
+        // 페이지 가시성 변경 시 상태 확인
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                checkServerHealth();
+            }
+        });
+
+        // 윈도우 크기 변경 시 스크롤 조정
+        window.addEventListener('resize', function() {
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        });
+
+        // 개발자 도구에서 사용할 수 있는 유틸리티 함수들
+        window.chatUtils = {
+            sendMessage: sendMessage,
+            resetConversation: resetConversation,
+            getAgentInfo: getAgentInfo,
+            checkServerHealth: checkServerHealth,
+            addMessage: addMessage
+        };
+
+        console.log('🤖 AutoGen 채팅봇 인터페이스 로드 완료');
+        console.log('💡 개발자 도구에서 window.chatUtils로 유틸리티 함수에 접근할 수 있습니다.');
+    </script>
+</body>
+</html>
