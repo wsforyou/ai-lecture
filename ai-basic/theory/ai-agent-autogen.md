@@ -971,7 +971,7 @@ if __name__ == "__main__":
 > - ABC Lab 은 소프트웨어 개발자 및 관리자가 AI 어플리케이션을 손쉽게 개발할 수 있도록 지원하는 플랫폼입니다.
 > - AI 프로젝트 관리, LLM 모델 관리, AI 데이터 관리, 외부 서비스 연동 기능을 제공하여 쉽고 빠르게 AI 서비스를 개발할 수 있도록 지원합니다.
 > - 사외 : https://studio.abclab.ktds.com
-> - 사내 : https://api.codi.kt.co.kr
+> - 사내 : https://codi.kt.co.kr
 
 - ABC Lab 에서 제공하는 대화형 앱 API 를 통해 LLM 연계
 - AIONU 클라이언트
